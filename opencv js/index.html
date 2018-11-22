@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="bootstrap3/css/bootstrap.css">
+	<link rel="stylesheet" href="css/imageSrc.css">
+	<title>使用Js实现OpenCv</title>
+</head>
+
+<body>
+	<div class="version-heart">
+		<!-- <h2 class="title">使用Js实现OpenCv</h2> -->
+		<!-- <p class="status" id="status">OpenCV.js is loading...</p> -->
+		<div class="bouncing-loader">
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+		<div class="twobut clearfix">
+			<input class="fileinput btn btn-primary" type="file" id="fileInput" name="file" />
+			<!-- <button id="reloadimg" type="button" class="putput btn btn-info">重载</button> -->
+			<button id="putimage" type="button" class="putput btn btn-success">下载图片</button>
+		</div>
+		<form action="" class="btn-toolbar" role="toolbar">
+			<input class="btn-group" role="group" type="checkbox" name="checkbox1">aboutFace
+			<input class="btn-group" role="group" type="checkbox" name="checkbox2">thresholding
+			<input class="btn-group" role="group" type="checkbox" name="checkbox3">imagefiter
+			<input class="btn-group" role="group" type="checkbox" name="checkbox4">convertCol
+			<input class="btn-group" role="group" type="checkbox" name="checkbox5">imageInrang
+		</form>
+		<!-- aria-label表示标签描述 -->
+		<div class="inputoutput-head">
+			<div class="inputoutput">
+				<!-- <div class="caption">输入图像</div> -->
+				<img id="imageSrc" />
+			</div>
+			<div class="inputoutput">
+				<!-- <div class="caption">输出图像</div> -->
+				<canvas id="canvasOutput"></canvas>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		//img元素
+		let imgElement = document.getElementById('imageSrc');
+		//input元素
+		let inputElement = document.getElementById('fileInput');
+		//重载btn
+		let reloadimage = document.getElementById('reloadimg');
+		//btngroup
+		let btngroup = document.getElementsByClassName('btn-group');
+		//监听input
+		inputElement.addEventListener('change', (e) => {
+			imgElement.src = URL.createObjectURL(e.target.files[0]);
+
+		}, false);
+
+		// reloadimage.onclick = function () {
+		// }
+
+		// img加载时同时加载canvas
+		imgElement.onload = function(){
+			// 将有图像的img元素装进mat,是对象
+			let mat = cv.imread(imgElement);
+			// 将canvas元素装进cot,是对象
+			let cot = cv.imread(canvasOutput);
+
+			cot = mat;
+			if (btngroup[0].checked) { face(mat, cot, 5, 4); }
+			if (btngroup[1].checked) { thresholding(mat, cot); }
+			if (btngroup[2].checked) { imagefiter(mat, cot);}
+			if (btngroup[3].checked) { convertCol(mat, cot); }
+			if (btngroup[4].checked) { imageInrange(mat, cot); }
+
+			//face(mat, cot, 5, 4);
+			//thresholding(mat, cot);
+			//doubleBilateral(mat,cot);
+			//imagefiter(mat,cot);
+			//convertCol(mat,cot);
+			//imageInrange(mat,cot);
+			cv.imshow('canvasOutput', cot);
+			// mat.delete();
+			// cot.delete();
+		};
+
+
+		let putimage = document.getElementById('putimage');
+		putimage.onclick = function () {
+			outputImage('canvasOutput', 'newPicture');
+		}
+		function onOpenCvReady() {
+			var bouncing = document.getElementsByClassName('bouncing-loader')[0];
+			bouncing.style.display = 'none';
+			// document.getElementById('status').innerHTML = 'OpenCV.js is ready.';
+		}
+
+	</script>
+	<script async src="js/opencv.js" onload="onOpenCvReady();" type="text/javascript"></script>
+	<script async src="js/handle.js" type="text/javascript"></script>
+	<script src="bootstrap3/js/jquery.min.js" type="text/javascript"></script>
+	<script src="bootstrap3/js/bootstrap.js" type="text/javascript"></script>
+
+</body>
+
+</html>

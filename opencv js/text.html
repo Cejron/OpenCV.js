@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>test</title>
+	<style>
+		input{
+			display: block;
+		}
+		img,canvas{
+			background-color: rgb(197, 195, 195);
+		}
+	</style>
+</head>
+
+<body>
+	<input type="file" id="fileinput">
+	<input type="button" id="oputt" value="putput">
+	<img id="in_img">
+	<canvas id='canv'></canvas>
+
+
+
+	<script type="text/javascript">
+		let finput = document.getElementById('fileinput');
+		let inimg = document.getElementById('in_img');
+		finput.addEventListener('change', (e) => {
+			inimg.src = URL.createObjectURL(e.target.files[0]);
+		}, false);
+
+
+		inimg.onload = function () {
+			let inp = cv.imread(inimg);
+			let outp = cv.imread(canv);
+			outp = inp;
+			cv.imshow('canv', outp);
+		}
+		let a=document.getElementById('oputt');
+		a.onclick=function(){
+			outputImage('canv','aaa');
+		}
+
+	</script>
+	<script src="js/handle.js"></script>
+	<script async src="js/opencv.js" type="text/javascript"></script>
+</body>
+
+</html>
